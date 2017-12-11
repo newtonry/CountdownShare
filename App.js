@@ -5,18 +5,13 @@
  */
 
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
 import SignUpScreen from './Screens/SignUpScreen';
-
-
 
 
 export default class App extends Component<{}> {
   render() {
     return (
-        <SignUpScreen/>
+      <SignUpScreen />
     );
   }
 }
