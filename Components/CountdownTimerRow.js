@@ -4,6 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import Metrics from '../Metrics';
 
@@ -37,50 +38,56 @@ class CountdownTimerRow extends Component {
     };
   }
 
-    updateCurrentTime = () => {
-      this.setState({
-        currentTime: moment(),
-      });
-    };
+  componentDidMount() {
+    this.timer = setInterval(this.updateCurrentTime, 1000);
+  }
 
-    componentDidMount() {
-      this.timer = setInterval(this.updateCurrentTime, 1000);
-    }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
 
-    componentWillUnmount() {
-      clearInterval(this.timer);
-    }
+  updateCurrentTime = () => {
+    this.setState({
+      currentTime: moment(),
+    });
+  };
 
-    renderCountdownString = (millisecondsLeft) => {
-      // TODO there must be an easier way to do this?
-      let remaining = millisecondsLeft;
-      const days = Math.floor(remaining / MS_IN_DAY);
-      remaining = millisecondsLeft % MS_IN_DAY;
-      const hours = Math.floor(remaining / MS_IN_HOUR);
-      remaining = millisecondsLeft % MS_IN_HOUR;
-      const minutes = Math.floor(remaining / MS_IN_MINUTE);
-      remaining = millisecondsLeft % MS_IN_MINUTE;
-      const seconds = Math.floor(remaining / MS_IN_SECOND);
-      return `${days}:${hours}:${minutes}:${seconds}`;
-    };
 
-    render() {
-      const { countdownTimer } = this.props;
-      const { currentTime } = this.state;
-      const timeLeft = countdownTimer.finishDate.diff(currentTime);
+  renderCountdownString = (millisecondsLeft) => {
+    // TODO there must be an easier way to do this?
+    let remaining = millisecondsLeft;
+    const days = Math.floor(remaining / MS_IN_DAY);
+    remaining = millisecondsLeft % MS_IN_DAY;
+    const hours = Math.floor(remaining / MS_IN_HOUR);
+    remaining = millisecondsLeft % MS_IN_HOUR;
+    const minutes = Math.floor(remaining / MS_IN_MINUTE);
+    remaining = millisecondsLeft % MS_IN_MINUTE;
+    const seconds = Math.floor(remaining / MS_IN_SECOND);
+    return `${days}:${hours}:${minutes}:${seconds}`;
+  };
 
-      const countdownString = this.renderCountdownString(timeLeft);
+  render() {
+    const { countdownTimer } = this.props;
+    const { currentTime } = this.state;
+    const timeLeft = countdownTimer.finishDate.diff(currentTime);
 
-      return (
-        <View
-          key={`countdownTimer-${countdownTimer.id}-timeLeft`}
-          style={styles.countdownTimerRow}
-        >
-          <Text style={styles.timerNameText}>{countdownTimer.name}</Text>
-          <Text style={styles.timerText}>{countdownString}</Text>
-        </View>
-      );
-    }
+    const countdownString = this.renderCountdownString(timeLeft);
+
+    return (
+      <View
+        key={`countdownTimer-${countdownTimer.id}-timeLeft`}
+        style={styles.countdownTimerRow}
+      >
+        <Text style={styles.timerNameText}>{countdownTimer.name}</Text>
+        <Text style={styles.timerText}>{countdownString}</Text>
+      </View>
+    );
+  }
 }
+
+CountdownTimerRow.propTypes = {
+  countdownTimer: PropTypes.object(),
+};
+
 
 export default CountdownTimerRow;

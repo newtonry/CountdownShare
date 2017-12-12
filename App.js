@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CountdownTimerScreen from './Screens/CountdownTimerScreen';
+import CreateCountdownTimerScreen from './Screens/CreateCountdownTimerScreen';
 
 
 export default class App extends Component<{}> {
   render() {
     return (
-      <CountdownTimerScreen />
+      <CreateCountdownTimerScreen />
     );
   }
 }

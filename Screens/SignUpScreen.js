@@ -12,6 +12,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
 
 
@@ -31,12 +32,6 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 75,
-  },
-  inputStyle: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: Metrics.margin,
   },
 });
 
@@ -82,24 +77,24 @@ class SignUpScreen extends Component {
           </View>
           <TextInput
             placeholder="Email"
-            style={styles.inputStyle}
+            style={CommonStyles.inputStyle}
             onChangeText={email => this.setState({ email })}
           />
           <TextInput
             placeholder="Username"
-            style={styles.inputStyle}
+            style={CommonStyles.inputStyle}
             onChangeText={username => this.setState({ username })}
           />
           <TextInput
             secureTextEntry
             placeholder="Password"
-            style={styles.inputStyle}
+            style={CommonStyles.inputStyle}
             onChangeText={password => this.setState({ password })}
           />
           <TextInput
             secureTextEntry
             placeholder="Confirm password"
-            style={styles.inputStyle}
+            style={CommonStyles.inputStyle}
             onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
           />
         </View>
