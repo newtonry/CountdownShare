@@ -10,6 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+    ScreenNames,
+    resetNavigationToScreen,
+} from '../Navigation';
 import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
 
@@ -20,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   friendRow: {
-    borderTopWidth: 1,
+    borderBottomWidth: 1,
     height: 75,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -55,7 +59,8 @@ class SearchFriendsScreen extends PureComponent {
   }
 
     onPressCreate = () => {
-      console.log(this.state);
+        const { navigation } = this.props;
+        resetNavigationToScreen(ScreenNames.CountdownTimerScreen, navigation)
     };
 
     selectOrUnselectUser = (user) => {

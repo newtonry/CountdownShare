@@ -12,7 +12,6 @@ import Metrics from '../Metrics';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: Metrics.doubleMargin,
   },
 });
 
@@ -23,13 +22,15 @@ const mockCountdownTimers = [
 ];
 
 const CountdownTimerScreen = () => (
-  <View style={styles.container}>
-    <FlatList
-      data={mockCountdownTimers}
-      renderItem={rowData => <CountdownTimerRow countdownTimer={rowData.item} />}
-      ItemSeparatorComponent={() => (<View />)}
-    />
-  </View>
+    <View style={styles.container}>
+        <FlatList
+            style={{padding: Metrics.padding}}
+            data={mockCountdownTimers}
+            renderItem={rowData => <CountdownTimerRow countdownTimer={rowData.item} />}
+            keyExtractor={(item) => `countdown-timer-row-id-${item.id}`}
+            ItemSeparatorComponent={() => (<View />)}
+        />
+    </View>
 );
 
 export default CountdownTimerScreen;

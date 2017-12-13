@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import SearchFriendsScreen from './Screens/SearchFriendsScreen';
+import setupApp from './setupApp';
+import { AppNavigationComponent } from './Navigation';
 
+setupApp();
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   render() {
     return (
-      <SearchFriendsScreen />
+      <AppNavigationComponent />
     );
   }
 }

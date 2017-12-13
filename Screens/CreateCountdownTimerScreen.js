@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import moment from 'moment';
+import { ScreenNames } from '../Navigation';
 import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
 
@@ -28,28 +29,29 @@ class CreateCountdownTimerScreen extends PureComponent {
   }
 
     onPressCreate = () => {
-      console.log(this.state);
+      const { navigation } = this.props;
+      navigation.navigate(ScreenNames.SearchFriendsScreen);
     };
 
     render() {
-      const { expirationDate } = this.state;
-      return (
+        const { expirationDate } = this.state;
+        return (
         <View style={styles.container}>
-          <TextInput
-            placeholder="Countdown timer name"
-            style={CommonStyles.inputStyle}
-            onChangeText={countdownTimerName => this.setState({ countdownTimerName })}
-          />
-          <DatePickerIOS
-            date={expirationDate}
-            onDateChange={newExpirationDate => this.setState({ expirationDate: newExpirationDate })}
-          />
-          <Button
-            onPress={this.onPressCreate}
-            title="Create timer"
-          />
+            <TextInput
+                placeholder="Countdown timer name"
+                style={CommonStyles.inputStyle}
+                onChangeText={countdownTimerName => this.setState({ countdownTimerName })}
+            />
+            <DatePickerIOS
+                date={expirationDate}
+                onDateChange={newExpirationDate => this.setState({ expirationDate: newExpirationDate })}
+            />
+            <Button
+                title="Create timer"
+                onPress={this.onPressCreate}
+            />
         </View>
-      );
+        );
     }
 }
 

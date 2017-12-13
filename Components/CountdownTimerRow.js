@@ -86,7 +86,7 @@ class CountdownTimerRow extends Component {
 }
 
 CountdownTimerRow.propTypes = {
-  countdownTimer: PropTypes.object(),
+  // countdownTimer: PropTypes.object(),
 };
 
 

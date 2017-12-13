@@ -12,6 +12,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { ScreenNames } from '../Navigation';
 import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
 
@@ -48,8 +49,8 @@ class SignUpScreen extends Component {
   }
 
   onPressContinue = () => {
-    console.log('Continue pressed');
-    console.log(this.state);
+    const { navigation } = this.props;
+    navigation.navigate(ScreenNames.CountdownTimerScreen)
   };
 
   validateInputs = () => {
