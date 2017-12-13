@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CreateCountdownTimerScreen from './Screens/CreateCountdownTimerScreen';
+import SearchFriendsScreen from './Screens/SearchFriendsScreen';
 
 
 export default class App extends Component<{}> {
   render() {
     return (
-      <CreateCountdownTimerScreen />
+      <SearchFriendsScreen />
     );
   }
 }

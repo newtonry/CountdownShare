@@ -1,0 +1,121 @@
+import _ from 'lodash';
+import React, { PureComponent } from 'react';
+import {
+  Button,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import CommonStyles from '../CommonStyles';
+import Metrics from '../Metrics';
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 50,
+  },
+  friendRow: {
+    borderTopWidth: 1,
+    height: 75,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  friendRowLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profileThumbnail: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    backgroundColor: '#EEEEEE',
+    marginRight: Metrics.margin,
+  },
+});
+
+const MOCK_FRIEND_DATA = [
+  { name: 'Durack Kong', id: 1, image: '' },
+  { name: 'Carrie Wirer', id: 2, image: '' },
+  { name: 'Timo Otskater', id: 3, image: '' },
+  { name: 'Blunte Chow', id: 4, image: '' },
+];
+
+class SearchFriendsScreen extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFriends: new Set([]),
+    };
+  }
+
+    onPressCreate = () => {
+      console.log(this.state);
+    };
+
+    selectOrUnselectUser = (user) => {
+      const { selectedFriends } = this.state;
+      const newSelectedFriends = _.clone(selectedFriends);
+
+      if (selectedFriends.has(user.id)) {
+        newSelectedFriends.delete(user.id);
+      } else {
+        newSelectedFriends.add(user.id);
+      }
+
+      this.setState({ selectedFriends: newSelectedFriends });
+    };
+
+    renderFriendRow = user => (
+      <TouchableOpacity
+        style={styles.friendRow}
+        onPress={() => this.selectOrUnselectUser(user)}
+      >
+        <View style={styles.friendRowLeft}>
+          <Image
+            source={require('../Images/profile-image.png')}
+            style={styles.profileThumbnail}
+          />
+          <Text>{user.name}</Text>
+        </View>
+        <Text>{user.isSelected ? '\u2714' : null}</Text>
+      </TouchableOpacity>
+    );
+
+    render() {
+      const { selectedFriends } = this.state;
+
+      const users = _.map(MOCK_FRIEND_DATA, (user) => {
+        const isSelected = selectedFriends.has(user.id);
+        return {
+          ...user,
+          isSelected,
+        };
+      });
+
+      return (
+        <View style={styles.container}>
+          <TextInput
+            placeholder="Search for user"
+            style={[CommonStyles.inputStyle, { marginBottom: 10 }]}
+          />
+          <FlatList
+            data={users}
+            keyExtractor={item => `user-row-${item.id}`}
+            renderItem={rowData => this.renderFriendRow(rowData.item)}
+          />
+          <Button
+            title="Send"
+            onPress={this.onPressCreate}
+          />
+        </View>
+      );
+    }
+}
+
+export default SearchFriendsScreen;
