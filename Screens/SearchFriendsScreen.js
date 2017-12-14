@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { PureComponent } from 'react';
 import {
-  Button,
   FlatList,
   Image,
   StyleSheet,
@@ -11,34 +10,50 @@ import {
   View,
 } from 'react-native';
 import {
-    ScreenNames,
-    resetNavigationToScreen,
+  ScreenNames,
+  resetNavigationToScreen,
 } from '../Navigation';
 import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
+import Colors from '../Colors';
+import Button from '../Components/Button';
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    backgroundColor: Colors.LIGHTEST_GREY,
   },
   friendRow: {
+    padding: Metrics.padding,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.LIGHTER_GREY,
+    height: 75,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  friendRowSelected: {
     borderBottomWidth: 1,
     height: 75,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
+  friendRowText: {
+    color: Colors.DARKEST_GREY,
+    fontSize: 18,
+    fontWeight: '500',
+  },
   friendRowLeft: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   profileThumbnail: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    backgroundColor: '#EEEEEE',
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.LIGHTER_GREY,
     marginRight: Metrics.margin,
   },
 });
@@ -54,13 +69,14 @@ class SearchFriendsScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      searchText: '',
       selectedFriends: new Set([]),
     };
   }
 
     onPressCreate = () => {
-        const { navigation } = this.props;
-        resetNavigationToScreen(ScreenNames.CountdownTimerScreen, navigation)
+      const { navigation } = this.props;
+      resetNavigationToScreen(ScreenNames.CountdownTimerScreen, navigation);
     };
 
     selectOrUnselectUser = (user) => {
@@ -76,38 +92,48 @@ class SearchFriendsScreen extends PureComponent {
       this.setState({ selectedFriends: newSelectedFriends });
     };
 
-    renderFriendRow = user => (
-      <TouchableOpacity
-        style={styles.friendRow}
-        onPress={() => this.selectOrUnselectUser(user)}
-      >
-        <View style={styles.friendRowLeft}>
-          <Image
-            source={require('../Images/profile-image.png')}
-            style={styles.profileThumbnail}
-          />
-          <Text>{user.name}</Text>
-        </View>
-        <Text>{user.isSelected ? '\u2714' : null}</Text>
-      </TouchableOpacity>
-    );
+    renderFriendRow = (user) => {
+      // TODO this is dumb.
+      const friendRowStyle = [styles.friendRow, { backgroundColor: user.isSelected ? Colors.MUSTARD_YELLOW : Colors.LIGHTEST_GREY }];
 
-    render() {
-      const { selectedFriends } = this.state;
+      return (
+        <TouchableOpacity
+          style={friendRowStyle}
+          onPress={() => this.selectOrUnselectUser(user)}
+        >
+          <View style={styles.friendRowLeft}>
+            <Image
+              source={require('../Images/profile-image.png')}
+              style={styles.profileThumbnail}
+            />
+            <Text style={styles.friendRowText}>{user.name}</Text>
+          </View>
+          <Text>{user.isSelected ? '\u2622' : null}</Text>
+        </TouchableOpacity>
+      );
+    };
 
-      const users = _.map(MOCK_FRIEND_DATA, (user) => {
-        const isSelected = selectedFriends.has(user.id);
+    getUsers = () => {
+      // TODO should this go somewhere else?
+      const { searchText, selectedFriends } = this.state;
+      return _.compact(_.map(MOCK_FRIEND_DATA, (user) => {
+        if (!user.name.includes(searchText)) return;
         return {
           ...user,
-          isSelected,
+          isSelected: selectedFriends.has(user.id),
         };
-      });
+      }));
+    };
 
+
+    render() {
+      const users = this.getUsers();
       return (
         <View style={styles.container}>
           <TextInput
+            onChangeText={searchText => this.setState({ searchText })}
             placeholder="Search for user"
-            style={[CommonStyles.inputStyle, { marginBottom: 10 }]}
+            style={CommonStyles.inputStyle}
           />
           <FlatList
             data={users}

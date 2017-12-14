@@ -6,7 +6,6 @@
 
 import React, { Component } from 'react';
 import {
-  Button,
   Image,
   StyleSheet,
   TextInput,
@@ -15,12 +14,14 @@ import {
 import { ScreenNames } from '../Navigation';
 import CommonStyles from '../CommonStyles';
 import Metrics from '../Metrics';
+import Colors from '../Colors';
+import Button from '../Components/Button';
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: Metrics.doubleMargin,
+    backgroundColor: Colors.WHITE,
     justifyContent: 'space-between',
   },
   imageContainer: {
@@ -40,73 +41,36 @@ const styles = StyleSheet.create({
 class SignUpScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirm: '',
-    };
   }
 
   onPressContinue = () => {
     const { navigation } = this.props;
-    navigation.navigate(ScreenNames.CountdownTimerScreen)
-  };
-
-  validateInputs = () => {
-    // TODO actual validations
-    const {
-      email, username, password, passwordConfirm,
-    } = this.state;
-    return (
-      email &&
-          username &&
-          password &&
-          password === passwordConfirm
-    );
+    navigation.navigate(ScreenNames.CountdownTimerScreen);
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require('../Images/profile-image.png')}
-              style={styles.profilePicture}
-            />
-          </View>
-          <TextInput
-            placeholder="Email"
-            style={CommonStyles.inputStyle}
-            onChangeText={email => this.setState({ email })}
-          />
-          <TextInput
-            placeholder="Username"
-            style={CommonStyles.inputStyle}
-            onChangeText={username => this.setState({ username })}
-          />
-          <TextInput
-            secureTextEntry
-            placeholder="Password"
-            style={CommonStyles.inputStyle}
-            onChangeText={password => this.setState({ password })}
-          />
-          <TextInput
-            secureTextEntry
-            placeholder="Confirm password"
-            style={CommonStyles.inputStyle}
-            onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
+        <View style={{
+ width: '100%', height: '100%', position: 'absolute', alignItems: 'center',
+}}
+        >
+          <Image
+            source={require('../Images/spiral-clock.png')}
+            style={{ flex: 1 }}
           />
         </View>
+
+        <View />
         <Button
           onPress={this.onPressContinue}
-          title="Continue"
+          title="Sign up with Facebook"
           accessibilityLabel="Learn more about this purple button"
         />
       </View>
     );
   }
 }
+
 
 export default SignUpScreen;

@@ -7,20 +7,23 @@ import {
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Metrics from '../Metrics';
-
+import Colors from '../Colors';
 
 const styles = StyleSheet.create({
   countdownTimerRow: {
     marginBottom: Metrics.margin,
   },
   timerNameText: {
+    color: Colors.DARKEST_GREY,
     fontSize: 25,
-    fontWeight: '700',
+    fontWeight: '600',
+    textAlign: 'center',
   },
   timerText: {
+    color: Colors.DARKEST_GREY,
     textAlign: 'center',
     fontSize: 50,
-    fontWeight: '800',
+    fontWeight: '700',
   },
 });
 

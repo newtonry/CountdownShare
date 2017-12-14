@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-  Button,
   DatePickerIOS,
   StyleSheet,
   TextInput,
@@ -9,13 +8,15 @@ import {
 import moment from 'moment';
 import { ScreenNames } from '../Navigation';
 import CommonStyles from '../CommonStyles';
+import Button from '../Components/Button';
 import Metrics from '../Metrics';
+import Colors from '../Colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
-    padding: Metrics.padding,
+    backgroundColor: Colors.LIGHTEST_GREY,
+    justifyContent: 'space-between',
   },
 });
 
@@ -34,24 +35,28 @@ class CreateCountdownTimerScreen extends PureComponent {
     };
 
     render() {
-        const { expirationDate } = this.state;
-        return (
+      const { countdownTimerName, expirationDate } = this.state;
+      return (
         <View style={styles.container}>
+          <View>
             <TextInput
-                placeholder="Countdown timer name"
-                style={CommonStyles.inputStyle}
-                onChangeText={countdownTimerName => this.setState({ countdownTimerName })}
+              autoCorrect={false}
+              placeholder="Countdown name"
+              placeholderTextColor={Colors.LIGHTER_GREY}
+              selectionColor={Colors.MID_GREY}
+              style={CommonStyles.inputStyle}
             />
             <DatePickerIOS
-                date={expirationDate}
-                onDateChange={newExpirationDate => this.setState({ expirationDate: newExpirationDate })}
+              date={expirationDate}
+              onDateChange={newExpirationDate => this.setState({ expirationDate: newExpirationDate })}
             />
-            <Button
-                title="Create timer"
-                onPress={this.onPressCreate}
-            />
+          </View>
+          <Button
+            title="Create timer"
+            onPress={this.onPressCreate}
+          />
         </View>
-        );
+      );
     }
 }
 
